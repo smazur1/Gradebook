@@ -4,14 +4,12 @@ import java.util.Scanner;
 
 public class Gradebook {
 
+	static int choice;
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
 		String name, grade, gender, major, state, score;
-		int choice, overSum = 0, overAvg, femaleSum = 0, maleSum = 0, mdSum = 0, vaSum = 0, paSum = 0, bioSum = 0,
-				mathSum = 0, acctSum = 0, femaleCount = 0, maleCount = 0, mdCount = 0, vaCount = 0, paCount = 0,
-				bioCount = 0, mathCount = 0, acctCount = 0, numStudents, mdAvg = 0, vaAvg = 0, paAvg = 0, maleAvg = 0,
-				femaleAvg = 0, mathAvg = 0, bioAvg = 0, acctAvg = 0;
 
 		String[][] students = new String[100][6];
 
@@ -48,14 +46,16 @@ public class Gradebook {
 		choice = keyboard.nextInt();
 
 		int i = 0;
-		numStudents = 1;
+		int numStudents = 1;
 
 		while ((choice == 1) || (choice == 2)) {
 
-			i++;
 
 			if (choice == 1) {
 
+				i++;
+
+				numStudents++;
 				System.out.println("Enter Student's Name? ");
 				students[i][0] = keyboard.next();
 
@@ -73,31 +73,48 @@ public class Gradebook {
 
 				System.out.println("Enter Student's score? ");
 				students[i][5] = keyboard.next();
+
+
+
 			} else {
 				// code for running total report
 
+				if (choice == 2) {
+					printReport(students, numStudents, i);
+				}
+
 			}
+
 
 			System.out.println("Enter (1) to enter more data, (2) to print report, or (3) to finish.");
 			choice = keyboard.nextInt();
-			numStudents++;
+
 		}
 
-		for (int k = 0; k <= i; k++) {
-			for (int j = 0; j < 6; j++) {
-				System.out.print(students[k][j] + "\t");
+		if (choice == 3){   // print final report
 
-			}
-			System.out.println();
+			printReport(students, numStudents, i);
 		}
 
+		keyboard.close();
+
+	}
+
+
+	public static void printReport(String students[][], int numStudents, int i)	{	
+
+
+		int overSum = 0, overAvg, femaleSum = 0, maleSum = 0, mdSum = 0, vaSum = 0,
+				paSum = 0, bioSum = 0, mathSum = 0, acctSum = 0, femaleCount = 0, 
+				maleCount = 0, mdCount = 0, vaCount = 0, paCount = 0,
+				bioCount = 0, mathCount = 0, acctCount = 0;
 
 
 		for (int k = 0; k <= i; k++) {
 
 			int intScore = Integer.parseInt(students[k][5]);
 			overSum = overSum + intScore;
-			System.out.println("std [k][2]" + students[k][2]);
+
 			if (students[k][2].equals("F")) {
 				femaleCount++;
 				femaleSum = femaleSum + intScore;
@@ -120,6 +137,7 @@ public class Gradebook {
 				acctSum = acctSum + intScore;
 			}
 
+
 			if (students[k][4].equals("MD")) {
 				mdCount++;
 				mdSum = mdSum + intScore;
@@ -134,18 +152,19 @@ public class Gradebook {
 
 		}
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-		String date = sdf.format(new Date());
-		System.out.println("Report Date : " + date + "\n");
+		if (choice == 3) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			String date = sdf.format(new Date());
+			System.out.println("Report Date : " + date + "\n");
+		} else {
+			System.out.println();
+		}
 
 		overAvg = overSum / numStudents;
 		System.out.println("Number of Students :" + numStudents);
 		System.out.println("Overall Average :" + overAvg);
-		
-		
-		System.out.println("here and there" + mdCount + "tjere" + mdSum );
-		
-		
+
+
 
 		if (maleCount > 0) {
 			System.out.println("Average for Males :" + (maleSum / maleCount));
@@ -169,11 +188,8 @@ public class Gradebook {
 			System.out.println("Average for Pennsylvania :" + (paSum / paCount));
 		}
 		if (vaCount > 0) {
-			System.out.println("Average for Biology majors :" + (vaSum / vaCount));
+			System.out.println("Average for Virginia :" + (vaSum / vaCount));
 		}
-
-		keyboard.close();
-
 	}
 
 }
